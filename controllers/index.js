@@ -1,5 +1,22 @@
 module.exports = function(app) {
+
 	app.get('/index', function(req, res){
+		console.log('Recebi a requisição');
+		res.send('OK');
+	}
+
+	app.get('/index/dados', function(req, res){
+
+		var connection = app.persistencia.connectionFactory();
+		var dadosDao = new app.persistencia.DadosDao(connection);
+		
+		dadosDao.lista(function(erro){
+			if(erro) {
+				res.status(500).send(erro);
+				return;
+			}
+		});
+
 		console.log('Recebi a requisição');
 		res.send('OK');
 	});
@@ -87,9 +104,14 @@ module.exports = function(app) {
 					dados_da_pessoa: dados,
 					links: [
 						{
-							href:"http://localhost:3000/index/dados"+dados.id,
+							href:"http://localhost:3000/index/dados/"+dados.id,
 							rel:"confirmar",
 							method:"PUT"
+						},
+						{
+							href:"http://localhost:3000/index/dados/"+dados.id,
+							rel:"cancelar",
+							method:"DELETE"
 						}
 					]
 				}
