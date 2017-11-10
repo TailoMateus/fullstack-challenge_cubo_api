@@ -3,22 +3,24 @@ module.exports = function(app) {
 	app.get('/index', function(req, res){
 		console.log('Recebi a requisição');
 		res.send('OK');
-	}
+	});
 
 	app.get('/index/dados', function(req, res){
 
 		var connection = app.persistencia.connectionFactory();
 		var dadosDao = new app.persistencia.DadosDao(connection);
 		
-		dadosDao.lista(function(erro){
+		dadosDao.lista(function(erro, retorno){
 			if(erro) {
 				res.status(500).send(erro);
 				return;
 			}
+
+			res.send(retorno);
 		});
 
 		console.log('Recebi a requisição');
-		res.send('OK');
+		
 	});
 
 	app.delete('/index/dados/:id', function(req, res) {
@@ -59,7 +61,7 @@ module.exports = function(app) {
 
 			res.send(dados);
 		});
-	}
+	});
 
 	app.post('/index/dados', function(req, res){
 		
