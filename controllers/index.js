@@ -1,5 +1,11 @@
 module.exports = function(app) {
 
+	app.use(function(req, res, next) {
+	  res.header("Access-Control-Allow-Origin", "*");
+	  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	  next();
+	});
+
 	app.get('/index', function(req, res){
 		console.log('Recebi a requisição');
 		res.send('OK');
@@ -20,7 +26,6 @@ module.exports = function(app) {
 		});
 
 		console.log('Recebi a requisição');
-		
 	});
 
 	app.delete('/index/dados/:id', function(req, res) {
@@ -65,7 +70,7 @@ module.exports = function(app) {
 
 	app.post('/index/dados', function(req, res){
 		
-		req.assert("nome", 
+		/*req.assert("nome", 
 			"Nome eh obrigatorio").notEmpty();
 
 		req.assert("sobrenome", 
@@ -76,11 +81,11 @@ module.exports = function(app) {
 
 		var erros = req.validationErrors();
 
-		if(erros) {
-			console.log("Erros de validacao");
-			res.status(400).send(erros);
-			return;
-		}
+		if(erros) {*/
+			//console.log("Erros de validacao");
+			//res.status(400).send(erros);
+			//return;
+		//}
 
 		var dados = req.body;
 
